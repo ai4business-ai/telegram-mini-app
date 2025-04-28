@@ -1,296 +1,347 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> AI агенты для предпринимателя </title>
+    <title>Бизнес Инструменты</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-        
-        :root {
-            --card-1-color: #4361ee;
-            --card-2-color: #3a86ff;
-            --card-3-color: #7209b7;
-            --card-4-color: #f72585;
-            --card-shadow: rgba(0, 0, 0, 0.15);
-            --transition-time: 0.3s;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro:wght@400;500;590;600;700&display=swap');
         
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 20px;
-            color: var(--tg-theme-text-color, #222);
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.02) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 20%),
-                radial-gradient(circle at 60% 40%, rgba(0, 0, 0, 0.02) 0%, transparent 20%);
+            padding: 0;
+            color: var(--tg-theme-text-color, black);
+            background-color: var(--tg-theme-bg-color, white);
         }
         
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            position: relative;
-        }
-        
-        header::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--card-1-color), var(--card-4-color));
-            border-radius: 3px;
-        }
-        
-        h1 {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            background: linear-gradient(90deg, var(--card-1-color), var(--card-4-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .subtitle {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-top: 0;
-        }
-        
-        .tiles-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 20px;
-        }
-        
-        .tile {
-            height: 140px;
-            border-radius: 16px;
+        /* Стили для header с синим баннером */
+        .header-banner {
+            width: 100%;
+            height: 359px;
+            background: #3596FF;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 8px 16px var(--card-shadow);
-            transition: transform var(--transition-time), box-shadow var(--transition-time);
-            cursor: pointer;
-            text-decoration: none;
+        }
+        
+        .header-bg {
+            width: 574px;
+            height: 635px;
+            position: absolute;
+            left: -92px;
+            top: -177px;
+            border-radius: 1px;
+            outline: 79px #007AFF solid;
+            outline-offset: -39.5px;
+        }
+        
+        .header-title {
+            width: 215px;
+            position: absolute;
+            left: 24px;
+            top: 151px;
             color: white;
+            font-size: 34px;
+            font-weight: 590;
+            line-height: 41px;
+            letter-spacing: 0.4px;
+        }
+        
+        .see-all-button {
+            width: 341px;
+            height: 50px;
+            position: absolute;
+            left: 24px;
+            top: 257px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 17px;
+            font-weight: 590;
+            line-height: 22px;
+            text-decoration: none;
+        }
+        
+        /* Стили для индикатора слайдов */
+        .pagination {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(22px);
+            border-radius: 28px;
+            padding: 4px 8px;
+        }
+        
+        .pagination-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            opacity: 0.25;
+            border-radius: 9999px;
+        }
+        
+        .pagination-active {
+            width: 20px;
+            height: 8px;
+            position: relative;
+        }
+        
+        .pagination-active-bg {
+            width: 20px;
+            height: 8px;
+            position: absolute;
+            opacity: 0.1;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .pagination-active-fill {
+            width: 11px;
+            height: 8px;
+            position: absolute;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        /* Стили для секций с карточками */
+        .section {
+            width: 100%;
+            padding: 8px;
+            background: var(--tg-theme-bg-color, white);
+            box-sizing: border-box;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 16px 12px 16px;
+        }
+        
+        .section-title {
+            color: var(--tg-theme-text-color, black);
+            font-size: 16px;
+            font-weight: 590;
+            line-height: 21px;
+        }
+        
+        .section-link {
+            color: var(--tg-theme-link-color, #007AFF);
+            font-size: 15px;
+            font-weight: 590;
+            line-height: 20px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            text-decoration: none;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 0 16px;
+        }
+        
+        .card {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 0;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--tg-theme-button-color, #007AFF);
+            color: white;
+            font-size: 24px;
+            outline: 0.5px var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05)) solid;
+        }
+        
+        .card-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 20px;
-            font-weight: 600;
-            backface-visibility: hidden;
+            gap: 2px;
         }
         
-        .tile::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+        .card-title {
+            color: var(--tg-theme-text-color, black);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        
+        .card-subtitle {
+            color: var(--tg-theme-hint-color, #707579);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+        
+        .card-button {
+            min-width: 34px;
+            padding: 8px 12px;
+            background: var(--tg-theme-button-color, #007AFF);
+            color: var(--tg-theme-button-text-color, white);
+            font-size: 15px;
+            font-weight: 590;
+            line-height: 20px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        /* Стили для нижней панели */
+        .bottom-bar {
+            width: 100%;
+            height: 34px;
+            position: fixed;
             bottom: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
-            z-index: 1;
-            opacity: 0.8;
-            transition: opacity var(--transition-time);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        .tile:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 12px 24px var(--card-shadow);
+        .bottom-indicator {
+            width: 139px;
+            height: 5px;
+            background: var(--tg-theme-text-color, black);
+            border-radius: 100px;
+            opacity: 0.2;
         }
         
-        .tile:hover::before {
-            opacity: 0.4;
-        }
-        
-        .tile:active {
-            transform: translateY(0) scale(0.98);
-            box-shadow: 0 5px 10px var(--card-shadow);
-        }
-        
-        .tile-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .tile-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-            transition: transform var(--transition-time);
-        }
-        
-        .tile:hover .tile-bg {
-            transform: scale(1.1);
-        }
-        
-        .tile-1 .tile-bg {
-            background: var(--card-1-color);
-        }
-        
-        .tile-2 .tile-bg {
-            background: var(--card-2-color);
-        }
-        
-        .tile-3 .tile-bg {
-            background: var(--card-3-color);
-        }
-        
-        .tile-4 .tile-bg {
-            background: var(--card-4-color);
-        }
-        
-        .tile-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-            transform: translateY(0);
-            transition: transform var(--transition-time);
-            display: block;
-        }
-        
-        .tile:hover .tile-icon {
-            transform: translateY(-5px) scale(1.1);
-        }
-        
-        .tile-title {
-            font-size: 16px;
-            line-height: 1.3;
-            transition: transform var(--transition-time);
-        }
-        
-        .tile:hover .tile-title {
-            transform: translateY(-2px);
-        }
-        
-        .pattern {
-            position: absolute;
-            opacity: 0.05;
-            background-size: cover;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-        }
-        
-        .pattern-1 {
-            background-image: url("image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .pattern-2 {
-            background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h12v6H0V0zm28 8h12v6H28V8zm14-8h12v6H42V0zm14 0h12v6H56V0zm0 8h12v6H56V8zM42 8h12v6H42V8zm0 16h12v6H42v-6zm14-8h12v6H56v-6zm14 0h12v6H70v-6zm0-16h12v6H70V0zM28 32h12v6H28v-6zM14 16h12v6H14v-6zM0 24h12v6H0v-6zm0 8h12v6H0v-6zm14 0h12v6H14v-6zm14 8h12v6H28v-6zm-14 0h12v6H14v-6zm28 0h12v6H42v-6zm14-8h12v6H56v-6zm0-8h12v6H56v-6zm14 8h12v6H70v-6zm0 8h12v6H70v-6zM14 24h12v6H14v-6zm14-8h12v6H28v-6zM14 8h12v6H14V8zM0 8h12v6H0V8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .pattern-3 {
-            background-image: url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .pattern-4 {
-            background-image: url("image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        /* Добавляем анимацию для бликов */
-        .tile::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.3) 50%, 
-                rgba(255,255,255,0) 100%
-            );
-            transform: rotate(30deg);
-            opacity: 0;
-            z-index: 1;
-            transition: opacity 0.5s;
-        }
-        
-        .tile:hover::after {
-            animation: shine 1.5s ease-in-out;
-        }
-        
-        @keyframes shine {
-            0% {
-                opacity: 0;
-                transform: rotate(30deg) translateX(-300%);
+        /* Адаптивные стили для темного режима */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #212121;
+                color: white;
             }
-            25% {
-                opacity: 0.3;
+            
+            .section {
+                background-color: #212121;
             }
-            50% {
-                opacity: 0.2;
+            
+            .section-title {
+                color: white;
             }
-            100% {
-                opacity: 0;
-                transform: rotate(30deg) translateX(300%);
+            
+            .section-link {
+                color: #2990FF;
+            }
+            
+            .card-title {
+                color: white;
+            }
+            
+            .card-subtitle {
+                color: #AAAAAA;
+            }
+            
+            .card-button {
+                background: #2990FF;
+            }
+            
+            .card-icon {
+                outline-color: rgba(255, 255, 255, 0.1);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container animate__animated animate__fadeIn">
-        <header>
-            <h1 class="animate__animated animate__fadeInDown">Бизнес Инструменты</h1>
-            <p class="subtitle animate__animated animate__fadeIn animate__delay-1s">Выберите инструмент, чтобы начать</p>
-        </header>
+    <!-- Header с баннером -->
+    <div class="header-banner">
+        <div class="header-bg"></div>
+        <h1 class="header-title">Бизнес Инструменты</h1>
+        <a href="#" class="see-all-button">Смотреть все</a>
         
-        <div class="tiles-container">
-            <a class="tile tile-1 animate__animated animate__zoomIn animate__delay-1s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
-                <div class="tile-bg"></div>
-                <div class="pattern pattern-1"></div>
-                <div class="tile-content">
-                    <span class="tile-icon">📊</span>
-                    <div class="tile-title">Анализ рынка и конкурентов</div>
-                </div>
-            </a>
-            
-            <a class="tile tile-2 animate__animated animate__zoomIn animate__delay-2s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
-                <div class="tile-bg"></div>
-                <div class="pattern pattern-2"></div>
-                <div class="tile-content">
-                    <span class="tile-icon">💡</span>
-                    <div class="tile-title">Обсудить идеи</div>
-                </div>
-            </a>
-            
-            <a class="tile tile-3 animate__animated animate__zoomIn animate__delay-3s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
-                <div class="tile-bg"></div>
-                <div class="pattern pattern-3"></div>
-                <div class="tile-content">
-                    <span class="tile-icon">📝</span>
-                    <div class="tile-title">Составить бизнес-модель</div>
-                </div>
-            </a>
-            
-            <a class="tile tile-4 animate__animated animate__zoomIn animate__delay-4s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
-                <div class="tile-bg"></div>
-                <div class="pattern pattern-4"></div>
-                <div class="tile-content">
-                    <span class="tile-icon">📚</span>
-                    <div class="tile-title">Применить идею из кейса</div>
-                </div>
-            </a>
+        <!-- Индикатор слайдов -->
+        <div class="pagination">
+            <div class="pagination-dot"></div>
+            <div class="pagination-dot"></div>
+            <div class="pagination-active">
+                <div class="pagination-active-bg"></div>
+                <div class="pagination-active-fill"></div>
+            </div>
+            <div class="pagination-dot"></div>
+            <div class="pagination-dot"></div>
         </div>
+    </div>
+    
+    <!-- Первая секция с карточками -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Стратегия</div>
+            <a href="#" class="section-link">См. все</a>
+        </div>
+        
+        <div class="card-container">
+            <div class="card animate__animated animate__fadeIn">
+                <div class="card-icon">📊</div>
+                <div class="card-content">
+                    <div class="card-title">Анализ рынка и конкурентов</div>
+                    <div class="card-subtitle">Бизнес-анализ</div>
+                </div>
+                <a href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" class="card-button">Открыть</a>
+            </div>
+            
+            <div class="card animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+                <div class="card-icon">📝</div>
+                <div class="card-content">
+                    <div class="card-title">Составить бизнес-модель</div>
+                    <div class="card-subtitle">Планирование</div>
+                </div>
+                <a href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" class="card-button">Открыть</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Вторая секция с карточками -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Инновации</div>
+            <a href="#" class="section-link">См. все</a>
+        </div>
+        
+        <div class="card-container">
+            <div class="card animate__animated animate__fadeIn" style="animation-delay: 0.2s;">
+                <div class="card-icon">💡</div>
+                <div class="card-content">
+                    <div class="card-title">Обсудить идеи</div>
+                    <div class="card-subtitle">Брейнсторминг</div>
+                </div>
+                <a href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" class="card-button">Открыть</a>
+            </div>
+            
+            <div class="card animate__animated animate__fadeIn" style="animation-delay: 0.3s;">
+                <div class="card-icon">📚</div>
+                <div class="card-content">
+                    <div class="card-title">Применить идею из кейса</div>
+                    <div class="card-subtitle">Практика</div>
+                </div>
+                <a href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" class="card-button">Открыть</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Нижняя панель -->
+    <div class="bottom-bar">
+        <div class="bottom-indicator"></div>
     </div>
     
     <script>
@@ -298,26 +349,35 @@
         const tg = window.Telegram.WebApp;
         tg.expand(); // Расширить на весь экран
         
-        // Адаптивная тема для темного/светлого режима
-        const isDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        // Уведомление бота при открытии приложения
-        tg.sendData("Пользователь открыл мини-приложение");
+        // Адаптируемся к цветовой схеме Telegram
+        document.documentElement.style.setProperty('--tg-theme-bg-color', tg.themeParams.bg_color);
+        document.documentElement.style.setProperty('--tg-theme-text-color', tg.themeParams.text_color);
+        document.documentElement.style.setProperty('--tg-theme-hint-color', tg.themeParams.hint_color);
+        document.documentElement.style.setProperty('--tg-theme-link-color', tg.themeParams.link_color);
+        document.documentElement.style.setProperty('--tg-theme-button-color', tg.themeParams.button_color);
+        document.documentElement.style.setProperty('--tg-theme-button-text-color', tg.themeParams.button_text_color);
         
         // Добавляем обработчик для открытия внешних ссылок
-        document.querySelectorAll('.tile').forEach(tile => {
-            tile.addEventListener('click', function(e) {
+        document.querySelectorAll('.card-button').forEach(button => {
+            button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const url = this.getAttribute('href');
                 
-                // Добавляем анимацию нажатия
-                this.classList.add('animate__animated', 'animate__pulse');
+                // Анимируем нажатие
+                this.closest('.card').classList.add('animate__pulse');
                 
-                // Ждем завершения анимации и открываем ссылку
+                // Открываем ссылку через Telegram API
                 setTimeout(() => {
                     tg.openLink(url);
-                }, 300);
+                }, 200);
             });
+        });
+        
+        // Также обрабатываем нажатие на кнопку "Смотреть все"
+        document.querySelector('.see-all-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            tg.HapticFeedback.impactOccurred('medium');
+            // Здесь можно добавить переход на другую страницу или показ всех элементов
         });
     </script>
 </body>
