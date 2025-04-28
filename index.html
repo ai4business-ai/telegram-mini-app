@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telegram Mini App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 16px;
+            color: var(--tg-theme-text-color);
+            background-color: var(--tg-theme-bg-color);
+        }
+        .button {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Мое Telegram Mini App</h1>
+    <p>Это простое приложение для Telegram</p>
+    <button class="button" id="mainButton">Нажми меня</button>
+    
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Расширить на весь экран
+        
+        // Отображаем основную кнопку в клиенте Telegram
+        tg.MainButton.setText('ГОТОВО');
+        tg.MainButton.onClick(function() {
+            // Отправить данные обратно боту при нажатии
+            tg.sendData("Пользователь завершил работу с Mini App");
+            tg.close();
+        });
+        
+        // Обработка нажатия на кнопку
+        document.getElementById('mainButton').addEventListener('click', function() {
+            tg.MainButton.show();
+        });
+    </script>
+</body>
+</html>
