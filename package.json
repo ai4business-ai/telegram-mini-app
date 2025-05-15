@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Frontend for Telegram Mini App",
   "scripts": {
-    "start": "serve -s ."
+    "start": "serve",
+    "build": "echo 'No build required for static files'"
   },
   "dependencies": {
     "serve": "^14.0.0"
