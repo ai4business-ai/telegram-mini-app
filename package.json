@@ -1,0 +1,8 @@
+{
+  "name": "telegram-mini-app-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Telegram Mini App",
+  "scripts": {
+    "start": "echo 'Static site, just serve the files'"
+  }
+}
