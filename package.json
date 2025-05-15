@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Frontend for Telegram Mini App",
   "scripts": {
-    "start": "echo 'Static site, just serve the files'"
+    "start": "serve -s ."
+  },
+  "dependencies": {
+    "serve": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
