@@ -255,14 +255,14 @@
         </header>
         
         <div class="tiles-container">
-            <a class="tile tile-1 animate__animated animate__zoomIn animate__delay-1s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
-                <div class="tile-bg"></div>
-                <div class="pattern pattern-1"></div>
-                <div class="tile-content">
-                    <span class="tile-icon">📊</span>
-                    <div class="tile-title">Анализ рынка и конкурентов</div>
-                </div>
-            </a>
+            <a class="tile tile-1 animate__animated animate__zoomIn animate__delay-1s" id="marketAnalysisBtn">
+    <div class="tile-bg"></div>
+    <div class="pattern pattern-1"></div>
+    <div class="tile-content">
+        <span class="tile-icon">📊</span>
+        <div class="tile-title">Анализ рынка и конкурентов</div>
+    </div>
+</a>
             
             <a class="tile tile-2 animate__animated animate__zoomIn animate__delay-2s" href="https://www.notion.so/Main-e77154622b6a4d61a9a86f32cf6bb036" target="_blank">
                 <div class="tile-bg"></div>
@@ -294,31 +294,51 @@
     </div>
     
     <script>
-        // Инициализация Telegram WebApp
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Расширить на весь экран
+    // Инициализация Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // Расширить на весь экран
+    
+    // URL вашего бэкенда (замените на реальный после деплоя)
+    const BACKEND_URL = 'https://your-backend-url.onrender.com';
+    
+    // Уведомление бота при открытии приложения
+    tg.sendData("Пользователь открыл мини-приложение");
+    
+    // Обработчик для кнопки "Анализ рынка и конкурентов"
+    document.getElementById('marketAnalysisBtn').addEventListener('click', function(e) {
+        e.preventDefault();
         
-        // Адаптивная тема для темного/светлого режима
-        const isDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Добавляем анимацию нажатия
+        this.classList.add('animate__animated', 'animate__pulse');
         
-        // Уведомление бота при открытии приложения
-        tg.sendData("Пользователь открыл мини-приложение");
-        
-        // Добавляем обработчик для открытия внешних ссылок
-        document.querySelectorAll('.tile').forEach(tile => {
-            tile.addEventListener('click', function(e) {
-                e.preventDefault();
-                const url = this.getAttribute('href');
-                
-                // Добавляем анимацию нажатия
-                this.classList.add('animate__animated', 'animate__pulse');
-                
-                // Ждем завершения анимации и открываем ссылку
-                setTimeout(() => {
-                    tg.openLink(url);
-                }, 300);
-            });
+        // Отправляем команду боту
+        setTimeout(() => {
+            tg.sendData(JSON.stringify({
+                action: "openGPT",
+                tool: "marketAnalysis"
+            }));
+            
+            // Закрываем мини-приложение
+            tg.close();
+        }, 300);
+    });
+    
+    // Обработчик для остальных кнопок
+    document.querySelectorAll('.tile:not(#marketAnalysisBtn)').forEach(tile => {
+        tile.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            
+            // Добавляем анимацию нажатия
+            this.classList.add('animate__animated', 'animate__pulse');
+            
+            // Ждем завершения анимации и открываем ссылку
+            setTimeout(() => {
+                tg.openLink(url);
+            }, 300);
         });
-    </script>
+    });
+</script>
+    
 </body>
 </html>
